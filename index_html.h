@@ -22,7 +22,8 @@ div  { background-color:#888888; color:#ffffff; border:0px; padding:0px; margin:
 <script>
 
 function CLOCKinit() {
-  ntpTZ=sendAJAX('getTZ')*1; ledBright=sendAJAX('getBright')*1; NTPstatus=sendAJAX('getNTPstatus')*1;
+  ajaxObj=[]; ntpTZ=3600; ledBright=5; NTPstatus=0;
+  requestAJAX('getTZ'); requestAJAX('getBright'); requestAJAX('getNTPstatus');
   doRange(); }
 
 function doDisplay() {
@@ -47,14 +48,20 @@ function doRange(target) {
   if (ledBright<0) { ledBright=0; }
   if (ledBright>255) { ledBright=255; }
   doDisplay();
-  if (target=="ntp") { sendAJAX('setTZ,'+ntpTZ); }
-  if (target=="bright") { sendAJAX('setBright,'+ledBright); } }
+  if (target=="ntp") { requestAJAX('setTZ,'+ntpTZ); }
+  if (target=="bright") { requestAJAX('setBright,'+ledBright); } }
 
-function getNTPstatus() { NTPstatus=sendAJAX('getNTPstatus')*1; }
+function getNTPstatus() { requestAJAX('getNTPstatus'); }
 
-function sendAJAX(value) {
-  ajaxObj=new XMLHttpRequest; ajaxObj.open("GET",value,false); ajaxObj.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-  ajaxObj.send(); return ajaxObj.responseText; }
+function requestAJAX(value) {
+  ajaxObj[value]=new XMLHttpRequest; ajaxObj[value].url=value; ajaxObj[value].open("GET",value,true);
+  ajaxObj[value].setRequestHeader("Content-Type","application/x-www-form-urlencoded"); ajaxObj[value].addEventListener('load',replyAJAX); ajaxObj[value].send(); }
+
+function replyAJAX(event) {
+  if (event.target.status==200) {
+    if (event.target.url=="getTZ") { ntpTZ=event.target.responseText*1; doDisplay(); }
+    else if (event.target.url=="getBright") { ledBright=event.target.responseText*1; doDisplay(); }
+    else if (event.target.url=="getNTPstatus") { NTPstatus=event.target.responseText*1; doDisplay(); } } }
 
 </script></head><body onload="CLOCKinit();">
 
