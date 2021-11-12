@@ -7,11 +7,18 @@ Preferences preferences;
 const char* ssidAP="garlandClock"; const char* passwordAP="";
 String ssidStation=""; String passwordStation=""; boolean statusStation=false;
 
+void reconnectWLAN() {
+  if (statusStation==true) { WiFi.disconnect(); delay(250); }
+  WiFi.begin(ssidStation.c_str(),passwordStation.c_str()); }
+
 void WiFiStationConnected(WiFiEvent_t event, WiFiEventInfo_t info) {
   preferences.begin("garlandClock",false); preferences.putString("ssidStation",ssidStation); preferences.putString("passwordStation",passwordStation); preferences.end();
   statusStation=true; if (debug) { Serial.println("WLAN Station " + ssidStation + " connected."); } }
 
-void WiFiStationDisconnected(WiFiEvent_t event, WiFiEventInfo_t info) { statusStation=false; WiFi.disconnect(); if (debug) { Serial.println("WLAN Station disconnected."); } }
+void WiFiStationDisconnected(WiFiEvent_t event, WiFiEventInfo_t info) {
+  statusStation=false; WiFi.disconnect(); if (debug) { Serial.println("WLAN Station disconnected."); }
+  preferences.begin("garlandClock",false); String ssidStationOld=preferences.getString("ssidStation",""); String passwordStationOld=preferences.getString("passwordStation",""); preferences.end();
+  if (ssidStationOld==ssidStation & passwordStationOld==passwordStation) { reconnectWLAN(); } }
 
 void initWLAN() {
   preferences.begin("garlandClock",false); ssidStation=preferences.getString("ssidStation",""); passwordStation=preferences.getString("passwordStation",""); preferences.end();
@@ -22,7 +29,3 @@ void initWLAN() {
   WiFi.setHostname("garlandClock"); WiFi.begin(ssidStation.c_str(),passwordStation.c_str());
   if (debug) { Serial.println("WLAN AP with IP address " + WiFi.softAPIP().toString() + " enabled."); }
   tcpServer.begin(); dnsServer.begin(53); }
-
-void reconnectWLAN() {
-  if (statusStation==true) { WiFi.disconnect(); delay(250); }
-  WiFi.begin(ssidStation.c_str(),passwordStation.c_str()); }
