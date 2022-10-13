@@ -12,4 +12,4 @@ ESP32 based Ring Clock with WebUI
 #### Development Hardware
 ![IMAGE ALT TEXT HERE](https://www.dorstel.de/github/garlandClock_b_v1.0.png)
 #### Smartphone Screenshot
-![IMAGE ALT TEXT HERE](https://www.dorstel.de/github/garlandClock_a_v1.0.png)
+![IMAGE ALT TEXT HERE](https://www.dorstel.de/github/garlandClock_a_v1.1.png)

@@ -1,7 +1,11 @@
+WiFiServer tcpServer(80);
+
 #include "index_html.h"
 #include "choose_html.h"
 #include "hex2ascii.h"
 #include "httpget.h"
+
+void initHTTP() { tcpServer.begin(); }
 
 void httpWorker() {
   WiFiClient httpClient=tcpServer.available(); String header="";
@@ -14,7 +18,7 @@ void httpWorker() {
             httpClient.println("Content-Type: text/html; charset=utf-8");
             httpClient.println("Connection: keep-alive");
             httpClient.println("Keep-Alive: timeout=5, max=1000");
-            httpClient.println("Server: ESP32");
+            httpClient.println("Server: ESP32 wlanSkeleton Erik Dorstel");
             httpClient.println();
             int a=header.indexOf("GET "); int b=header.indexOf(" ",a+4);
             if (a>=0) { httpClient.println(httpget(header.substring(a+4,b)));

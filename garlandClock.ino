@@ -1,4 +1,7 @@
-boolean debug=false;
+boolean debug=true;
+
+const char* appName="garlandClock";
+const char* appDesc="LED Ring Clock";
 
 #include "WLAN.h"
 #include "DNS.h"
@@ -9,7 +12,9 @@ boolean debug=false;
 void setup() {
   if (debug) { Serial.begin(115200); }
   initWLAN();
+  initDNS();
+  initHTTP();
   initNTP();
   initNEOLED(); }
 
-void loop() { httpWorker(); dnsWorker(); neoledWorker(); }
+void loop() { wlanWorker(); httpWorker(); dnsWorker(); neoledWorker(); }

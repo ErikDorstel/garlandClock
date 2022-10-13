@@ -11,7 +11,8 @@ int getTZ() {
   return(TZ); }
 
 int getNTPstatus() {
-  if (ntpTime.update()) { return(1); } else { return(0); } }
+  ntpTime.update();
+  if (ntpTime.isTimeSet()) { return(1); } else { return(0); } }
 
 void initNTP() {
   ntpTime.begin();

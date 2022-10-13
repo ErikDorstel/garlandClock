@@ -1,4 +1,4 @@
-char *index_html=R"(
+const char *index_html=R"(
 
 <!DOCTYPE html>
 <html lang="en"><head>
@@ -9,20 +9,22 @@ char *index_html=R"(
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <style>
-html { font-family:Arial; }
-div  { background-color:#888888; color:#ffffff; border:0px; padding:0px; margin:0px; text-align:center; width:100%; user-select:none; display:inline-block; }
-.x0a { background-color:#C0A0A0; padding:0.2em 0em 0.1em; width:100%; font-size:1.5em; }
-.x0b { background-color:#C0A0A0; padding:0.1em 0em 0.2em; width:100%; font-size:1.2em; }
-.x0  { background-color:#C0A0A0; padding:0.3em 0em; width:100%; font-size:1.4em; }
-.x1  { background-color:#A0B0C0; padding:0.3em 0em; width:100%; font-size:1.4em; }
-.x2  { background-color:#888888; padding:0.3em 0em; width:48%; font-size:1.4em; }
-.x3  { background-color:#888888; padding:0.3em 0em; width:32%; font-size:1.4em; }
-.x4  { background-color:#888888; padding:0.3em 0em; width:24%; font-size:1.4em; }
+html   { font-family:Arial; }
+div    { background-color:#e0e0e0; color:#000000; border:0px; padding:0px; margin:0px; text-align:center; width:100%; user-select:none; display:inline-block; }
+.x0a   { background-color:#c2d5ed; padding:0.2em 0em 0.1em; width:100%; font-size:1.5em; }
+.x0b   { background-color:#c2d5ed; padding:0.1em 0em 0.2em; width:100%; font-size:1.2em; }
+.x0    { background-color:#c2d5ed; padding:0.3em 0em; width:100%; font-size:1.4em; }
+.x1    { background-color:#f0f0f0; padding:0.3em 0em; width:100%; font-size:1.4em; }
+.x1a   { background-color:#e0e0e0; padding:0.3em 0em; width:100%; font-size:1.4em; }
+.x2    { background-color:#e0e0e0; padding:0.3em 0em; width:48%; font-size:1.4em; }
+.x3    { background-color:#e0e0e0; padding:0.3em 0em; width:32%; font-size:1.4em; }
+.x4    { background-color:#e0e0e0; padding:0.3em 0em; width:24%; font-size:1.4em; }
 </style>
 <script>
 
 function CLOCKinit() {
   ajaxObj=[]; ntpTZ=3600; ledBright=5; NTPstatus=0;
+  appName="&nbsp;"; appDesc="&nbsp;"; requestAJAX('appName');
   requestAJAX('getTZ'); requestAJAX('getBright'); requestAJAX('getNTPstatus');
   doRange(); }
 
@@ -60,15 +62,20 @@ function requestAJAX(value) {
 function replyAJAX(event) {
   if (event.target.status==200) {
     if (event.target.url=="getTZ") { ntpTZ=event.target.responseText*1; doDisplay(); }
+    else if (event.target.url=="appName") {
+      id("appName").innerHTML=event.target.responseText.split(",")[0];
+      id("appDesc").innerHTML=event.target.responseText.split(",")[1]; }
     else if (event.target.url=="getBright") { ledBright=event.target.responseText*1; doDisplay(); }
     else if (event.target.url=="getNTPstatus") { NTPstatus=event.target.responseText*1; doDisplay(); } } }
 
+function id(id) { return document.getElementById(id); }
+
 </script></head><body onload="CLOCKinit();">
 
-<div><div class="x0a">garlandClock</div></div>
-<div><div class="x0b">LED Ring Clock</div></div>
+<div><div class="x0a" id="appName">&nbsp;</div></div>
+<div><div class="x0b" id="appDesc">&nbsp;</div></div>
 
-<div class="x1" onclick="location.replace('/chooseAP');">Choose WLAN AP</div></div>
+<div class="x1a" onclick="location.replace('/chooseAP');">Choose WLAN AP</div></div>
 
 <div>
 <div><div class="x0" id="statusBtn" onclick="getNTPstatus();"></div></div>
