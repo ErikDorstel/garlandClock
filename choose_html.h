@@ -13,6 +13,8 @@ html  { font-family:Arial; }
 div   { background-color:#e0e0e0; color:#000000; border:0px; padding:0px; margin:0px; text-align:center; width:100%; user-select:none; display:inline-block; }
 input { background-color:#f0f0f0; padding:0.2em; width:90%; font-size:1em; color:#000000; outline:none; border:0px; }
 input[type=checkbox] { width:1.2em; height:1.2em; }
+table { margin-left:auto; margin-right:auto; }
+td    { text-align:left; padding:0.4em 0em; }
 .x0a  { background-color:#c2d5ed; padding:0.2em 0em 0.1em; width:100%; font-size:1.5em; }
 .x0b  { background-color:#c2d5ed; padding:0.1em 0em 0.2em; width:100%; font-size:1.2em; }
 .x0   { background-color:#c2d5ed; padding:0.4em 0em; width:100%; font-size:1.5em; }
@@ -45,7 +47,8 @@ function connectAP() {
 
 function requestAJAX(value) {
   ajaxObj[value]=new XMLHttpRequest; ajaxObj[value].url=value; ajaxObj[value].open("GET",value,true);
-  ajaxObj[value].setRequestHeader("Content-Type","application/x-www-form-urlencoded"); ajaxObj[value].addEventListener('load',replyAJAX); ajaxObj[value].send(); }
+  ajaxObj[value].setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+  ajaxObj[value].addEventListener('load',replyAJAX); ajaxObj[value].send(); }
 
 function replyAJAX(event) {
   if (event.target.status==200) {

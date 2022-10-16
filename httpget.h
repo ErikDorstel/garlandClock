@@ -36,8 +36,8 @@ String httpget(String request) {
     else { response=a2h(wlanConfig.ssidStation) + ",,"; } }
 
   else if (request.indexOf("/scanAP")>=0) {
-    wlanTimer=millis()+20000; int indexes=WiFi.scanNetworks(); for (int index=0;index<indexes;++index) { if (WiFi.SSID(index)!="") {
-      response+="<div class=\"x1\" onclick=\"setAP(\'" + WiFi.SSID(index) + "\');\">" + WiFi.RSSI(index) + "&nbsp;dB&nbsp;&nbsp;&nbsp;&nbsp;" + WiFi.SSID(index) + "</div>"; } } }
+    wlanTimer=millis()+20000; int indexes=WiFi.scanNetworks(); response+="<div class=\"x1\"><table>"; for (int index=0;index<indexes;++index) { if (WiFi.SSID(index)!="") {
+      response+="<tr><td onclick=\"setAP(\'" + WiFi.SSID(index) + "\');\">" + WiFi.RSSI(index) + "&nbsp;dB&nbsp;&nbsp;&nbsp;&nbsp;" + WiFi.SSID(index) + "</td></tr>"; } } response+="</table></div>"; }
 
   else if (request.indexOf("/connectAP")>=0) {
     int a=request.indexOf(",")+1; int b=request.indexOf(",",a)+1;

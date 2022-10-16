@@ -75,7 +75,7 @@ function id(id) { return document.getElementById(id); }
 <div><div class="x0a" id="appName">&nbsp;</div></div>
 <div><div class="x0b" id="appDesc">&nbsp;</div></div>
 
-<div class="x1a" onclick="location.replace('/chooseAP');">Choose WLAN AP</div></div>
+<div><div class="x1a" onclick="location.replace('/chooseAP');">Choose WLAN AP</div></div>
 
 <div>
 <div><div class="x0" id="statusBtn" onclick="getNTPstatus();"></div></div>
